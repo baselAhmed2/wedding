@@ -6,8 +6,9 @@ const video     = document.getElementById('preVideo-el');
 // Music initialization
 const songPath = 'assets/Ed Sheeran - Photograph.mp3';
 const audio = new Audio(songPath);
-audio.currentTime = 53;
 audio.loop = true;
+
+
 let musicStarted = false;
 
 function dismissPreloader() {
@@ -31,7 +32,6 @@ prePoster.addEventListener('click', () => {
   
   // Start background music
   if (!musicStarted) {
-    audio.currentTime = 53;
     audio.play().catch(err => console.log("Audio play failed:", err));
     document.getElementById('music').classList.add('playing');
     musicStarted = true;
