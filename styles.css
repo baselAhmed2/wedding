@@ -747,6 +747,11 @@ a {
   max-width: 64rem;
 }
 
+.venue-grid .med {
+  font-size: clamp(1.1rem, 3.2vw, 1.45rem);
+  line-height: 1.4;
+}
+
 @media(min-width:768px) {
   .venue-grid {
     grid-template-columns: repeat(3, 1fr);

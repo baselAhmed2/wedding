@@ -4,7 +4,7 @@ const prePoster = document.getElementById('prePoster');
 const video     = document.getElementById('preVideo-el');
 
 // Music initialization
-const songPath = 'assets/Alex Warren - Ordinary (Wedding Version) [Official Music Video] (mp3cut.net).mp3';
+const songPath = 'assets/Ed Sheeran - Photograph.mp3';
 const audio = new Audio(songPath);
 audio.loop = true;
 let musicStarted = false;
