@@ -123,3 +123,91 @@ musicBtn.addEventListener('click', () => {
     musicBtn.classList.remove('playing');
   }
 });
+
+// ── LOCATION ACTIONS (Copy & Share) ───────────────────────────
+const MAPS_URL = 'https://maps.google.com/?q=%D9%85%D8%B3%D8%AC%D8%AF+%D8%A7%D9%84%D8%B4%D8%B1%D8%B7%D8%A9+%D8%A7%D9%84%D8%AA%D8%AC%D9%85%D8%B9+%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%B3';
+const copyLocationBtn = document.getElementById('copyLocationBtn');
+const shareLocationBtn = document.getElementById('shareLocationBtn');
+const toastNotice = document.getElementById('toastNotice');
+const toastText = document.getElementById('toastText');
+let toastTimer = null;
+
+function showToast(message) {
+  if (!toastNotice) return;
+  if (toastText) toastText.textContent = message;
+  toastNotice.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toastNotice.classList.remove('show');
+  }, 2600);
+}
+
+if (copyLocationBtn) {
+  copyLocationBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    let copied = false;
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(MAPS_URL);
+        copied = true;
+      } catch (err) {
+        // fallback to execCommand below
+      }
+    }
+    if (!copied) {
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = MAPS_URL;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        copied = document.execCommand('copy');
+        document.body.removeChild(textArea);
+      } catch (err) {
+        console.error('Fallback copy failed', err);
+      }
+    }
+
+    copyLocationBtn.classList.add('copied');
+    const iconCopy = copyLocationBtn.querySelector('.icon-copy');
+    const iconCheck = copyLocationBtn.querySelector('.icon-check');
+    const copyBtnText = document.getElementById('copyBtnText');
+
+    if (iconCopy) iconCopy.style.display = 'none';
+    if (iconCheck) iconCheck.style.display = 'inline-block';
+    if (copyBtnText) copyBtnText.textContent = 'Copied!';
+
+    showToast('Location link copied to clipboard!');
+
+    setTimeout(() => {
+      copyLocationBtn.classList.remove('copied');
+      if (iconCopy) iconCopy.style.display = 'inline-block';
+      if (iconCheck) iconCheck.style.display = 'none';
+      if (copyBtnText) copyBtnText.textContent = 'Copy Link';
+    }, 2400);
+  });
+}
+
+if (shareLocationBtn) {
+  shareLocationBtn.addEventListener('click', async () => {
+    const shareData = {
+      title: 'Mohamed & Jihad Katb Ktab — Hall 2 (Open Air)',
+      text: 'لوكيشن كتب كتاب محمد وجهاد (مسجد الشرطة - التجمع الخامس - Hall 2 Open Air):',
+      url: MAPS_URL
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+      }
+    }
+
+    const waText = encodeURIComponent(`لوكيشن كتب كتاب محمد وجهاد (مسجد الشرطة - التجمع الخامس - Hall 2 Open Air):\n${MAPS_URL}`);
+    window.open(`https://wa.me/?text=${waText}`, '_blank');
+  });
+}
