@@ -193,8 +193,8 @@ if (copyLocationBtn) {
 if (shareLocationBtn) {
   shareLocationBtn.addEventListener('click', async () => {
     const shareData = {
-      title: 'Mohamed & Jihad Katb Ktab — Hall 2 (Open Air)',
-      text: 'لوكيشن كتب كتاب محمد وجهاد (مسجد الشرطة - التجمع الخامس - Hall 2 Open Air):',
+      title: 'Mohamed & Jihad Katb Ktab Location',
+      text: 'لوكيشن كتب كتاب محمد وجهاد (مسجد الشرطة - التجمع الخامس):',
       url: MAPS_URL
     };
 
@@ -207,7 +207,7 @@ if (shareLocationBtn) {
       }
     }
 
-    const waText = encodeURIComponent(`لوكيشن كتب كتاب محمد وجهاد (مسجد الشرطة - التجمع الخامس - Hall 2 Open Air):\n${MAPS_URL}`);
+    const waText = encodeURIComponent(`لوكيشن كتب كتاب محمد وجهاد (مسجد الشرطة - التجمع الخامس):\n${MAPS_URL}`);
     window.open(`https://wa.me/?text=${waText}`, '_blank');
   });
 }
